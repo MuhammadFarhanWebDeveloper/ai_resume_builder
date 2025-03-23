@@ -1,5 +1,5 @@
 "use client";
-import { useResume } from "@/context/resume";
+import { ResumeType, useResume } from "@/context/resume";
 import React from "react";
 import PersonalDetail from "./preview/PersonalDetail";
 import Summery from "./preview/Summery";
@@ -7,26 +7,38 @@ import ProfessionalExperience from "./preview/ProfessionalExperience";
 import Educational from "./preview/Educational";
 import Skills from "./preview/Skills";
 
-export default function PreviewSection() {
+export default function PreviewSection({
+  resumeProp = null,
+}: {
+  resumeProp?: null | string;
+}) {
   const { resume } = useResume();
-
+  const parsedResumeProp: ResumeType =
+    typeof resumeProp === "string" ? JSON.parse(resumeProp) : null;
   return (
     <div
+      id="print-area"
       className="shadow-lg h-full p-14 border-t-[20px]"
       style={{
         borderColor: resume.themeColor,
       }}
     >
       {/* Personal Detail */}
-      <PersonalDetail resume={resume} />
+      <PersonalDetail resume={parsedResumeProp || resume} />
       {/* Summery */}
-      <Summery resume={resume} />
+      <Summery resume={parsedResumeProp || resume} />
       {/* Professional Experience */}
-      <ProfessionalExperience resume={resume} />
+      {resume.experience.length > 0 && (
+        <ProfessionalExperience resume={parsedResumeProp || resume} />
+      )}
       {/* Educational */}
-      <Educational resume={resume} />
+      {resume.education.length > 0 && (
+        <Educational resume={parsedResumeProp || resume} />
+      )}
       {/* Skills */}
-      <Skills resume={resume} />
+      {resume.skills.length > 0 && (
+        <Skills resume={parsedResumeProp || resume} />
+      )}
     </div>
   );
 }

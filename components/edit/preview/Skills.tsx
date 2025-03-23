@@ -20,14 +20,14 @@ export default function Skills({ resume }: { resume: ResumeType }) {
 
       <div className="grid grid-cols-2 gap-3 my-4">
         {resume.skills.map((skill, index) => (
-          <div key={index} className="flex items-center justify-between">
+          <div key={index} className="flex items-center justify-center gap-2">
             <h2 className="text-sm">{skill.name}</h2>
-            <div className="h-2 bg-gray-200 w-[120px]">
+            <div className="h-2 skill-rating bg-gray-400 w-[120px] rounded-lg ">
               <div
-                className="h-2"
+                className="h-2 rounded-lg"
                 style={{
                   backgroundColor: resume.themeColor,
-                  width: `${skill.rating}%`,
+                  width: `${skill.rating * 20}%`,
                 }}
               ></div>
             </div>

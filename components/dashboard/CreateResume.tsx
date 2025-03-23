@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { SaveResume } from "@/actions/user_resume";
+import { SaveResume } from "@/actions/resume_action";
 import { useResume } from "@/context/resume";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";

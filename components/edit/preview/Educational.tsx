@@ -27,9 +27,12 @@ export default function Educational({ resume }: { resume: ResumeType }) {
             {education.universityName}
           </h2>
           <h2 className="text-xs flex justify-between">
-            {education.degree} in {education.major}
+            {(education.degree || education.major) &&
+              `${education.degree} in ${education.major}`}
+
             <span>
-              {education.startDate} - {education.endDate}
+              {(education.startDate || education.endDate) &&
+                `${education.startDate} - ${education.endDate}`}
             </span>
           </h2>
         </div>

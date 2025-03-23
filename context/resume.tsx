@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// Define types
 export type ResumeType = {
   firstName: string;
   lastName: string;
@@ -13,7 +12,6 @@ export type ResumeType = {
   themeColor: string;
   summery: string;
   experience: {
-    id: number;
     title: string;
     companyName: string;
     city: string;
@@ -24,7 +22,6 @@ export type ResumeType = {
     workSummery: string;
   }[];
   education: {
-    id: number;
     universityName: string;
     startDate: string;
     endDate: string;
@@ -33,7 +30,6 @@ export type ResumeType = {
     description: string;
   }[];
   skills: {
-    id: number;
     name: string;
     rating: number;
   }[];
@@ -56,7 +52,6 @@ const dummyResumeData: ResumeType = {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   experience: [
     {
-      id: 1,
       title: "Full Stack Developer",
       companyName: "Amazon",
       city: "New York",
@@ -65,7 +60,7 @@ const dummyResumeData: ResumeType = {
       endDate: "",
       currentlyWorking: true,
       workSummery:
-        " Designed, developed, and maintained full-stack applications using React and Node.js.\n" +
+        "• Designed, developed, and maintained full-stack applications using React and Node.js.\n" +
         "• Implemented responsive user interfaces with React, ensuring seamless user experiences across\n" +
         "various devices and browsers.\n" +
         "• Maintaining the React Native in-house organization application." +
@@ -73,7 +68,6 @@ const dummyResumeData: ResumeType = {
         "and back-end systems.",
     },
     {
-      id: 2,
       title: "Frontend Developer",
       companyName: "Google",
       city: "Charlotte",
@@ -92,7 +86,6 @@ const dummyResumeData: ResumeType = {
   ],
   education: [
     {
-      id: 1,
       universityName: "Western Illinois University",
       startDate: "Aug 2018",
       endDate: "Dec:2019",
@@ -102,7 +95,6 @@ const dummyResumeData: ResumeType = {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud",
     },
     {
-      id: 2,
       universityName: "Western Illinois University",
       startDate: "Aug 2018",
       endDate: "Dec:2019",
@@ -114,35 +106,74 @@ const dummyResumeData: ResumeType = {
   ],
   skills: [
     {
-      id: 1,
       name: "Angular",
-      rating: 80,
+      rating: 4,
     },
     {
-      id: 1,
       name: "React",
-      rating: 100,
+      rating: 5,
     },
     {
-      id: 1,
       name: "MySql",
-      rating: 80,
+      rating: 4,
     },
     {
-      id: 1,
       name: "React Native",
-      rating: 100,
+      rating: 5,
     },
   ],
 };
 
+const emptyResume: ResumeType = {
+  firstName: "",
+  lastName: "",
+  jobTitle: "",
+  address: "",
+  phone: "",
+  email: "",
+  themeColor: "#000000",
+  summery: "",
+  experience: [
+    {
+      title: "",
+      companyName: "",
+      city: "",
+      state: "",
+      startDate: "",
+      endDate: "",
+      currentlyWorking: false,
+      workSummery: "",
+    },
+  ],
+  education: [
+    {
+      universityName: "",
+      startDate: "",
+      endDate: "",
+      degree: "",
+      major: "",
+      description: "",
+    },
+  ],
+  skills: [
+    {
+      name: "",
+      rating: 0,
+    },
+  ],
+};
 // Create Context
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
-export const ResumeProvider = ({ children }: { children: ReactNode }) => {
-  const [resume, setResume] = useState<ResumeType>(dummyResumeData);
+export const ResumeProvider = ({
+  children,
+  resumeProp,
+}: {
+  children: ReactNode;
+  resumeProp?: ResumeType;
+}) => {
+  const [resume, setResume] = useState<ResumeType>(resumeProp || emptyResume);
 
-  // Function to update the resume
   const updateResume = (newData: Partial<ResumeType>) => {
     setResume((prev) => ({ ...prev, ...newData }));
   };

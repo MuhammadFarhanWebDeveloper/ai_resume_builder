@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ResumeProvider } from "@/context/resume";
+import { Toaster } from "@/components/ui/sonner";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,10 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <Navbar />
-          <div className="p-3"><ResumeProvider>{children}</ResumeProvider></div>
+          <div className="p-3">
+            <ResumeProvider>{children}</ResumeProvider>
+          </div>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
