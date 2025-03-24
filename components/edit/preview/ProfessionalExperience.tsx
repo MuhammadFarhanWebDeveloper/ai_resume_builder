@@ -38,7 +38,7 @@ export default function ProfessionalExperience({
               {experience.currentlyWorking ? "Present" : experience.endDate}
             </span>
           </h2>
-          <div className="text-xs my-2">
+          <div className="text-xs  experience-summary my-2">
             <div dangerouslySetInnerHTML={{ __html: experience.workSummery }} />
           </div>
         </div>

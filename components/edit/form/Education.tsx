@@ -72,6 +72,7 @@ export default function Education() {
 
       const formData = new FormData();
       formData.append("education", JSON.stringify(resume.education));
+      formData.append("themeColor", resume.themeColor);
 
       // Append resumeId if needed
       if (resumeId) {

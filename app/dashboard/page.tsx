@@ -7,7 +7,7 @@ export default async function page() {
     <div>
       <div>
         <h1 className="font-bold text-3xl">My Resume</h1>
-        <p>Start create your resume for your next job</p>
+        <p>Start creating your resume for your next job</p>
       </div>
       <div className="my-2">
         <CardsSectionDashboard />

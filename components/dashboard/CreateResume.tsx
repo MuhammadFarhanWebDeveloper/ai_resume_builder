@@ -104,9 +104,13 @@ const CreateResumeCard = ({ onClick }: { onClick: () => void }) => {
   return (
     <div
       onClick={onClick}
-      className="bg-card-foreground cursor-pointer text-card w-[230px] rounded-lg flex justify-center items-center h-[250px]"
+      className="border-2 border-gray-600 cursor-pointer text-card w-[230px] rounded-lg flex justify-center items-center h-[250px]"
     >
-      <FilePlus2 size={30} />
+      <FilePlus2
+        color="#4B5563
+"
+        size={30}
+      />
     </div>
   );
 };

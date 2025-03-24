@@ -90,7 +90,7 @@ export default function Experience() {
 
       const formData = new FormData();
       formData.append("experience", JSON.stringify(resume.experience));
-
+      formData.append("themeColor", resume.themeColor);
       if (resumeId) {
         formData.append("resumeId", resumeId.toString());
       }

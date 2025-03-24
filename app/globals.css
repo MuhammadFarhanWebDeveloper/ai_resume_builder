@@ -160,3 +160,8 @@
   size: auto;
   margin: 0;
 }
+
+
+.experience-summary ul {
+  list-style-type: disc ;
+}

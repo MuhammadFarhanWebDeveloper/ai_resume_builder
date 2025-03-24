@@ -16,7 +16,8 @@ export default async function page({
   ).lean()) as unknown as ResumeType | null;
 
   if (!getResume) throw new Error("Resume not found");
-
+  console.log("GET RESUME");
+  console.log(getResume);
   const resumeData: ResumeType = {
     firstName: getResume.firstName || "",
     lastName: getResume.lastName || "",
@@ -24,7 +25,7 @@ export default async function page({
     address: getResume.address || "",
     phone: getResume.phone || "",
     email: getResume.email || "",
-    themeColor: getResume.themeColor || "#000000",
+    themeColor: getResume.themeColor || "#ff6666",
     summery: getResume.summery || "",
     experience: getResume.experience?.map(({ _id, __v, ...exp }) => exp) || [],
     education: getResume.education?.map(({ _id, __v, ...edu }) => edu) || [],

@@ -61,6 +61,8 @@ export default function Skills() {
       }
 
       const formData = new FormData();
+      formData.append("themeColor", resume.themeColor);
+
       formData.append("skills", JSON.stringify(resume.skills));
 
       // Append resumeId if needed

@@ -15,7 +15,14 @@ export default async function CardsSectionDashboard() {
     <div className="flex gap-3 px-8 flex-wrap">
       <CreateResume />
       {formattedResumes.map((item) => {
-        return <ResumeCard key={item._id} title={item.title} id={item._id} />;
+        return (
+          <ResumeCard
+            key={item._id}
+            theme={item.themeColor}
+            title={item.title}
+            id={item._id}
+          />
+        );
       })}
     </div>
   );

@@ -8,16 +8,14 @@ import ExperienceForm from "./form/ExperienceForm";
 import Experience from "./form/Experience";
 import Education from "./form/Education";
 import Skills from "./form/Skills";
+import ThemeColor from "./ThemeColor";
 
 export default function FormSection() {
   const [activeIndex, setActiveIndex] = useState(1);
   return (
     <div>
       <div className=" my-2 flex items-center justify-between">
-        <Button variant={"outline"} size={"sm"} className="flex gap-2">
-          <LayoutGrid />
-          Theme
-        </Button>
+        <ThemeColor />
         <div className="flex gap-2">
           {activeIndex > 1 && (
             <Button

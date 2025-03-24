@@ -3,17 +3,27 @@ import { UpdateResumeInfo } from "@/actions/resume_action";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useResume } from "@/context/resume";
-import { LoaderCircle } from "lucide-react";
+import { AIChatSession } from "@/lib/gemini";
+import { Brain, LoaderCircle } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
+
+type aiGeneratedSummeryType = {
+  experienceLevel: string;
+  summary: string;
+};
 
 export default function SummeryForm() {
   const { resumeId } = useParams();
   const { resume, updateResume } = useResume();
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
   const [isPending, startTransition] = useTransition();
-
+  const [isAIGenerating, startGenerating] = useTransition();
+  const [aiGeneratedSummeryList, setAiGeneratedSummeryList] = useState<
+    aiGeneratedSummeryType[]
+  >([]);
+  const prompt = `JOB Title: [TITLE], depends on my job title give me a summery for my resume within 4-5 lines in JSON format with experience Level and Summery with experience level for Fresher, Mid-Level, Experienced. I want response like [{experienceLevel:"Fresher", summery:"..."}, {experienceLevel:"Mid-Level", summery:"..."}, {experienceLevel:"Experienced",summery:"..."}]`;
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
     updateResume({
@@ -24,6 +34,7 @@ export default function SummeryForm() {
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
       const summery = formData.get("summery") as string;
+      formData.append("themeColor", resume.themeColor);
 
       if (!summery || !resumeId) {
         toast("The Summery is required!");
@@ -44,6 +55,21 @@ export default function SummeryForm() {
     }
   }, [resume.summery]);
 
+  const generateSummeryFromAI = () => {
+    if (!resume.jobTitle) return;
+    startGenerating(async () => {
+      const PROMPT = prompt.replace("[TITLE]", resume.jobTitle);
+      const result = await AIChatSession.sendMessage(PROMPT);
+      const textResponse = result.response.text();
+      const cleanedResponse = textResponse.replace(/```json|```/g, "").trim();
+      setAiGeneratedSummeryList(JSON.parse(cleanedResponse));
+    });
+  };
+
+  const handleSuggestionClick = (summary: string) => {
+    updateResume({ summery: summary });
+  };
+
   return (
     <div className="p-5 shadow-lg rounded-lg border-t-4 border-t-primary">
       <h2 className="font-bold text-lg">Summery</h2>
@@ -58,9 +84,20 @@ export default function SummeryForm() {
               <Button
                 variant={"outline"}
                 size={"sm"}
-                className="cursor-pointer"
+                onClick={generateSummeryFromAI}
+                type="button"
+                disabled={!resume.jobTitle || isAIGenerating}
+                className="cursor-pointer p-2 "
               >
-                Generate from AI
+                {isAIGenerating ? (
+                  <div className="animate-spin">
+                    <LoaderCircle />
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Brain /> Generate from AI
+                  </div>
+                )}
               </Button>
             </div>
             <Textarea
@@ -86,6 +123,27 @@ export default function SummeryForm() {
           </div>
         </div>
       </form>
+      {aiGeneratedSummeryList.length > 0 && (
+        <div className="flex flex-col my-3 p-3 justify-center gap-4">
+          <h1 className="font-bold text-3xl text-black">Suggestions</h1>
+          {aiGeneratedSummeryList.map((summary, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => handleSuggestionClick(summary.summary)}
+                className="shadow-lg text-primary cursor-pointer rounded-lg p-3 "
+              >
+                <h1 className="font-semibold">
+                  Level: {summary.experienceLevel}
+                </h1>
+                <p className="py-2">{summary.summary}</p>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
+
+

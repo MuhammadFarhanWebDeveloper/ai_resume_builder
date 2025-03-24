@@ -4,12 +4,13 @@ import { DatePicker } from "@/components/ui/datePicker";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useResume } from "@/context/resume";
-import { LoaderCircle } from "lucide-react";
+import { Brain, LoaderCircle } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import RichTextEditor from "./RichTextEditor";
 import { Checkbox } from "@/components/ui/checkbox";
+import { AIChatSession } from "@/lib/gemini";
 
 export default function ExperienceForm({
   index,
@@ -22,18 +23,25 @@ export default function ExperienceForm({
     index: number
   ) => void;
 }) {
-  const { resumeId } = useParams();
   const { resume, updateResume } = useResume();
-  // const [isPresentChecked, setIsPresentChecked] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  // const handleInput = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   updateResume({
-  //     [name]: value,
-  //   });
-  // };
+  const [isAIGenerating, startGenerating] = useTransition();
+
+  const prompt = `Position Title: [TITLE], depends position title give me 5-7 bullet-points for my experience in resume, give me result in HTML format. the response only contain html`;
+
+  const generateSummeryFromAI = () => {
+    if (!resume.experience[index].title) return;
+    startGenerating(async () => {
+      const PROMPT = prompt.replace("[TITLE]", resume.experience[index].title);
+      const result = await AIChatSession.sendMessage(PROMPT);
+      const textResponse = result.response.text();
+      const cleanedResponse = textResponse.replace(/```html|```/g, "").trim();
+      updateResume({
+        experience: resume.experience.map((exp, i) =>
+          i === index ? { ...exp, workSummery: cleanedResponse } : exp
+        ),
+      });
+    });
+  };
 
   return (
     <form>
@@ -146,8 +154,22 @@ export default function ExperienceForm({
             <label htmlFor="workSummery" className="text-sm">
               Add Summery
             </label>
-            <Button variant={"outline"} size={"sm"} className="cursor-pointer">
-              Generate from AI
+            <Button
+              variant={"outline"}
+              type="button"
+              onClick={generateSummeryFromAI}
+              size={"sm"}
+              className="cursor-pointer"
+            >
+               {isAIGenerating ? (
+                  <div className="animate-spin">
+                    <LoaderCircle />
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Brain /> Generate from AI
+                  </div>
+                )}
             </Button>
           </div>
           <RichTextEditor

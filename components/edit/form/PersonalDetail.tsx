@@ -20,12 +20,15 @@ export default function PersonalDetail() {
   };
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
+      formData.append("themeColor", resume.themeColor);
+
       const { firstName, lastName, address, jobTitle, email, phone } =
         Object.fromEntries(formData);
       if (!resumeId || typeof resumeId !== "string") {
         return;
       }
       formData.append("resumeId", resumeId);
+
       if (
         !firstName ||
         !lastName ||

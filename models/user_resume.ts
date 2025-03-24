@@ -34,6 +34,7 @@ const UserResumeSchema = new Schema({
   phone: { type: String },
   jobTitle: { type: String },
   summery: { type: String },
+  themeColor: { type: String, default: "#ff6666" },
   experience: [ExperienceSchema],
   education: [EducationSchema],
   skills: [SkillsSchema],

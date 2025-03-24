@@ -13,14 +13,18 @@ export default function PreviewSection({
   resumeProp?: null | string;
 }) {
   const { resume } = useResume();
+  console.log(resume);
   const parsedResumeProp: ResumeType =
     typeof resumeProp === "string" ? JSON.parse(resumeProp) : null;
+
   return (
     <div
       id="print-area"
       className="shadow-lg h-full p-14 border-t-[20px]"
       style={{
-        borderColor: resume.themeColor,
+        borderColor: parsedResumeProp
+          ? parsedResumeProp.themeColor
+          : resume.themeColor,
       }}
     >
       {/* Personal Detail */}

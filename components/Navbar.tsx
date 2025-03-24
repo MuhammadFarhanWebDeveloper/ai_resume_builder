@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <header
       id="no-print"
-      className="flex justify-between bg-foreground text-white items-center p-4 gap-4 h-16"
+      className="flex justify-between border-b border-black items-center p-4 gap-4 h-16"
     >
       <div>
         <Link href="/">

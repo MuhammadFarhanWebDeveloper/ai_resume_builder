@@ -16,9 +16,11 @@ import { deleteResume } from "@/actions/resume_action";
 
 export default function ResumeCard({
   title,
+  theme,
   id,
 }: {
   title: string;
+  theme: string;
   id: string;
 }) {
   const [isPending, startTransition] = useTransition();
@@ -40,7 +42,12 @@ export default function ResumeCard({
       >
         <Image width={150} height={150} src={"/resume.png"} alt="Resume" />
       </Link>
-      <div className="px-2 gap-5 bg-foreground text-white py-3 flex items-center justify-between">
+      <div
+        style={{
+          backgroundColor: theme,
+        }}
+        className="px-2 gap-5  text-white py-3 flex items-center justify-between"
+      >
         <h2 className="">{title}</h2>
         <div className="">
           <DropdownMenu>
@@ -52,7 +59,10 @@ export default function ResumeCard({
                 <Link href={`/dashboard/${id}/edit`}>Edit</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <ConfirmDeleteDialog isPending={isPending} onConfirm={() => onDelete()}>
+                <ConfirmDeleteDialog
+                  isPending={isPending}
+                  onConfirm={() => onDelete()}
+                >
                   <div className="font-bold px-2 cursor-pointer text-red-700">
                     Delete
                   </div>
