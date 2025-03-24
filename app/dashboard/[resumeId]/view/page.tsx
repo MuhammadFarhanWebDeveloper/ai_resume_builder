@@ -7,9 +7,9 @@ import React from "react";
 export default async function page({
   params,
 }: {
-  params: { resumeId: string };
+  params: Promise<{ resumeId: string }>;
 }) {
-  const resumeId = await params.resumeId;
+  const { resumeId } = await params;
   await connectToDB();
   const resume = await UserResume.findById(resumeId);
   const ResumeString = JSON.stringify(resume);
