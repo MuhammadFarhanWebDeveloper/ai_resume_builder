@@ -75,6 +75,7 @@ export default function Skills() {
         ? toast("Your Skills has been saved")
         : toast(response.message);
     });
+    
   };
   useEffect(() => {
     const requiredFields: (keyof ResumeType["skills"][0])[] = [
