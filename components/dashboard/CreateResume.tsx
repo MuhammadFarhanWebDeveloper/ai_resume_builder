@@ -37,7 +37,7 @@ export default function CreateResume() {
 
         const savedRecord = await SaveResume(formData);
         setTitle("");
-        console.log(savedRecord);
+        
         if (savedRecord.success) {
           setIsOpen(false);
           const resumeId = savedRecord.resume?.id;

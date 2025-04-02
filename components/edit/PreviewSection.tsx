@@ -13,7 +13,7 @@ export default function PreviewSection({
   resumeProp?: null | string;
 }) {
   const { resume } = useResume();
-  console.log(resume);
+
   const parsedResumeProp: ResumeType =
     typeof resumeProp === "string" ? JSON.parse(resumeProp) : null;
 

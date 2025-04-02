@@ -22,7 +22,7 @@ export default function SkillForm({
         i === index ? { ...skill, rating: rating } : skill
       ),
     });
-    console.log(rating);
+    
   }, [rating]);
 
   return (

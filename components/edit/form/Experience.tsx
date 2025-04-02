@@ -84,7 +84,7 @@ export default function Experience() {
 
       if (!isValid) {
         toast.error("Please fill in all required fields.");
-        console.log(resume.experience);
+       
         return;
       }
 

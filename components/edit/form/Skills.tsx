@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { ResumeType, useResume } from "@/context/resume";
 import { LoaderCircle } from "lucide-react";
@@ -6,6 +7,7 @@ import React, { useEffect, useState, useTransition } from "react";
 import SkillForm from "./SkillForm";
 import { toast } from "sonner";
 import { UpdateResumeInfo } from "@/actions/resume_action";
+import { useRouter } from "next/navigation";
 const formFields = {
   name: "",
   rating: 0,
@@ -14,7 +16,7 @@ export default function Skills() {
   const [isPending, startTransition] = useTransition();
   const { resumeId } = useParams();
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
-
+  const router = useRouter();
   const { resume, updateResume } = useResume();
 
   const handleAddMoreSKill = () => {
@@ -44,8 +46,6 @@ export default function Skills() {
 
   const handleSubmit = () => {
     startTransition(async () => {
-      //   //   const summery = formData.get("summery") as string;
-
       const requiredFields: (keyof ResumeType["skills"][0])[] = [
         "name",
         "rating",
@@ -71,11 +71,13 @@ export default function Skills() {
       }
       const response = await UpdateResumeInfo(formData);
 
-      response.success
-        ? toast("Your Skills has been saved")
-        : toast(response.message);
+      if (response.success) {
+        toast.success("Your Skills has been saved");
+        router.push(`/dashboard/${resumeId}/view`);
+      } else {
+        toast(response.message);
+      }
     });
-    
   };
   useEffect(() => {
     const requiredFields: (keyof ResumeType["skills"][0])[] = [
