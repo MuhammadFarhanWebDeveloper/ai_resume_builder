@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { ResumeProvider } from "@/context/resume";
 import { Toaster } from "@/components/ui/sonner";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,18 +28,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           <Navbar />
           <div className="p-3">
             <ResumeProvider>{children}</ResumeProvider>
           </div>
           <Toaster />
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
